@@ -11,16 +11,16 @@
          string[] animals = { "cat", "dog", "fish", "bear", "rabbit", "dolphin", "giraffe", "penguin", "platypus", "chameleon", "axolotl", "Capybara", "proboscis", "aardvark", "quetzalcoaltus" };
          string[] chosen_stuff = new string[2];
          char guess = ' ';
-         bool win = false,letter_found=false,end=false; 
-         int difficulty = 0,tries=5;
-         string chosen_word = "",decision="",chosen_argument="",used_letters="";
+         bool win = false, letter_found = false, end = false;
+         int difficulty = 0, tries = 0;
+         string chosen_word = "", decision = "", chosen_argument = "", used_letters = "";
          Console.WriteLine("insert difficulty ");
          difficulty = Convert.ToInt32(Console.ReadLine());
-         chosen_stuff= Word_chooser(sports,war,animals,difficulty);
+         chosen_stuff = Word_chooser(sports, war, animals, difficulty);
          chosen_word = chosen_stuff[0];
          chosen_argument = chosen_stuff[1];
          char[] censured_word = new char[chosen_word.Length];
-        
+
          for (int i = 0; i < chosen_word.Length; i++)
          {
              if (i == 0 || i == chosen_word.Length - 1)
@@ -29,79 +29,92 @@
                  censured_word[i] = '_';
          }
          Console.WriteLine($"the theme is: {chosen_argument}");
-         while (end == false)
+         if (difficulty == 1)
          {
-             if (tries == 0)
+             tries = 12;
+         }
+         else if (difficulty == 2)
+         {
+             tries = 8;
+         }
+         else
+         {
+             tries = 6;
+         }
+         Console.WriteLine($"you have {tries} tries");
+         while (end == false)
              {
-                 Console.WriteLine($"You lost, the word was {chosen_word}");
-                 return false;
-             }
-             letter_found = false;
-             Console.WriteLine(censured_word);
-             checker = string.Join("",censured_word);
-             if (checker== chosen_word)
-             {
-                 Console.WriteLine($"You've guessed the word {chosen_word}, good grief.");
-
-
-                 return true;
-             }
-             Console.WriteLine($"you used the letters {used_letters} ");
-             Console.WriteLine("insert your guess");
-             guess=Convert.ToChar(Console.ReadLine());
-             for (int i = 0;i < chosen_word.Length; i++)
-             {
-                 if (guess == chosen_word[i])
+                 if (tries == 0)
                  {
-                     Console.WriteLine("Good guess bromium");
+                     Console.WriteLine($"You lost, the word was {chosen_word}");
+                     return false;
+                 }
+                 letter_found = false;
+                 Console.WriteLine(censured_word);
+                 checker = string.Join("", censured_word);
+                 if (checker == chosen_word)
+                 {
+                     Console.WriteLine($"You've guessed the word {chosen_word}, good grief.");
+
+
+                     return true;
+                 }
+                 Console.WriteLine($"you used the letters {used_letters} ");
+                 Console.WriteLine("insert your guess");
+                 guess = Convert.ToChar(Console.ReadLine());
+                 for (int i = 0; i < chosen_word.Length; i++)
+                 {
+                     if (guess == chosen_word[i])
+                     {
+                         Console.WriteLine("Good guess bromium");
+                         used_letters += " " + guess;
+                         censured_word[i] = guess;
+                         letter_found = true;
+
+                     }
+                 }
+                 if (letter_found == false)
+                 {
+                     tries--;
+                     Console.WriteLine($"you guessed wrong, you have {tries} tries left");
                      used_letters += " " + guess;
-                     censured_word[i]= guess;
-                     letter_found=true;
 
                  }
-             }
-             if(letter_found == false)
-             {
-                 tries--;
-                 Console.WriteLine($"you guessed wrong, you have {tries} tries left");
-                 used_letters += " " +guess;
-                 
-             }
-             Console.WriteLine(censured_word);
-             if (tries > 0)
-             {
-                 Console.WriteLine("Do you wish to try and guess the word?");
-                 decision=Console.ReadLine();
-                 if (decision == "yes")
+                 Console.WriteLine(censured_word);
+                 if (tries > 0)
                  {
-                     Console.WriteLine("insert your guess then ");
+                     Console.WriteLine("Do you wish to try and guess the word?");
                      decision = Console.ReadLine();
-                     if (decision == chosen_word)
+                     if (decision == "yes")
                      {
-                         Console.WriteLine("Good guess my man");
-                         return true;
+                         Console.WriteLine("insert your guess then ");
+                         decision = Console.ReadLine();
+                         if (decision == chosen_word)
+                         {
+                             Console.WriteLine("Good guess my man");
+                             return true;
+                         }
+                         if (decision != chosen_word)
+                         {
+                             tries--;
+                             Console.WriteLine($"better luck next time young buck, you have {tries} tries left");
+                         }
                      }
-                     if(decision != chosen_word)
-                     {
-                         tries--;
-                         Console.WriteLine($"better luck next time young buck, you have {tries} tries left");
-                     }
-                 }    
+                 }
+
+
              }
-            
-            
-         }
 
          return false;
      }
      static Random roll = new Random();
-     static string[] Word_chooser(string[] sports, string[] war,string[] animals,int difficulty)
+     static string[] Word_chooser(string[] sports, string[] war, string[] animals, int difficulty)
      {
-         
+
          string[] arguments = { "sports", "war", "animals" };
          string[] result = new string[2];
          string chosen_word = "";
-         int chosen_argument = roll.Next(0, 3),a=0;
+         int chosen_argument = roll.Next(0, 3), a = 0;
          if (difficulty == 1)
          {
              a = roll.Next(0, 6);
@@ -131,7 +144,7 @@
          result[1] = arguments[chosen_argument];
          return result;
      }
-    
+
      static void Main(string[] args)
      {
          string choice;
@@ -152,7 +165,7 @@
                  {
                      Console.WriteLine("AAAAAIGHHHT BEEEEET");
                  }
-                 
+
              }
          }
      }
