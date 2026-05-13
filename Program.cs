@@ -107,7 +107,7 @@
 
          return false;
      }
-     static Random roll = new Random();
+      Random roll = new Random();
      static string[] Word_chooser(string[] sports, string[] war, string[] animals, int difficulty)
      {
 
